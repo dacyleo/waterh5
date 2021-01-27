@@ -1,23 +1,11 @@
 <template>
   <el-dialog :visible.sync="visible" :title="!dataForm.id ? $t('add') : $t('update')" :close-on-click-modal="false" :close-on-press-escape="false">
     <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmitHandle()" label-width="120px">
-      <el-form-item prop="username" :label="$t('user.username')">
-        <el-input v-model="dataForm.username" :placeholder="$t('user.username')"></el-input>
+      <el-form-item prop="realName" label="学校名称">
+        <el-input v-model="dataForm.realName" placeholder="学校名称"></el-input>
       </el-form-item>
-      <el-form-item prop="deptName" :label="$t('user.deptName')" class="dept-list">
-        <el-popover v-model="deptListVisible" ref="deptListPopover" placement="bottom-start" trigger="click">
-          <el-tree
-            :data="deptList"
-            :props="{ label: 'name', children: 'children' }"
-            node-key="id"
-            ref="deptListTree"
-            :highlight-current="true"
-            :expand-on-click-node="false"
-            accordion
-            @current-change="deptListTreeCurrentChangeHandle">
-          </el-tree>
-        </el-popover>
-        <el-input v-model="dataForm.deptName" v-popover:deptListPopover :readonly="true" :placeholder="$t('user.deptName')"></el-input>
+      <el-form-item prop="username" label="登录账号" v-if="!dataForm.id">
+        <el-input v-model="dataForm.username" placeholder="登录账号"></el-input>
       </el-form-item>
       <el-form-item prop="password" :label="$t('user.password')" :class="{ 'is-required': !dataForm.id }">
         <el-input v-model="dataForm.password" type="password" :placeholder="$t('user.password')"></el-input>
@@ -25,26 +13,11 @@
       <el-form-item prop="comfirmPassword" :label="$t('user.comfirmPassword')" :class="{ 'is-required': !dataForm.id }">
         <el-input v-model="dataForm.comfirmPassword" type="password" :placeholder="$t('user.comfirmPassword')"></el-input>
       </el-form-item>
-      <el-form-item prop="realName" :label="$t('user.realName')">
-        <el-input v-model="dataForm.realName" :placeholder="$t('user.realName')"></el-input>
+      <el-form-item prop="gradeAmount" label="年级数量" v-if="!dataForm.id">
+        <el-input v-model="dataForm.gradeAmount" placeholder="年级数量"></el-input>
       </el-form-item>
-      <el-form-item prop="gender" :label="$t('user.gender')" size="mini">
-        <el-radio-group v-model="dataForm.gender">
-          <el-radio :label="0">{{ $t('user.gender0') }}</el-radio>
-          <el-radio :label="1">{{ $t('user.gender1') }}</el-radio>
-          <el-radio :label="2">{{ $t('user.gender2') }}</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item prop="email" :label="$t('user.email')">
-        <el-input v-model="dataForm.email" :placeholder="$t('user.email')"></el-input>
-      </el-form-item>
-      <el-form-item prop="mobile" :label="$t('user.mobile')">
-        <el-input v-model="dataForm.mobile" :placeholder="$t('user.mobile')"></el-input>
-      </el-form-item>
-      <el-form-item prop="roleIdList" :label="$t('user.roleIdList')" class="role-list">
-        <el-select v-model="dataForm.roleIdList" multiple :placeholder="$t('user.roleIdList')">
-          <el-option v-for="role in roleList" :key="role.id" :label="role.name" :value="role.id"></el-option>
-        </el-select>
+      <el-form-item prop="classAmount" label="班级数量" v-if="!dataForm.id">
+        <el-input v-model="dataForm.classAmount" placeholder="班级数量"></el-input>
       </el-form-item>
       <el-form-item prop="status" :label="$t('user.status')" size="mini">
         <el-radio-group v-model="dataForm.status">
@@ -74,14 +47,12 @@ export default {
       dataForm: {
         id: '',
         username: '',
-        deptId: '0',
-        deptName: '',
         password: '',
         comfirmPassword: '',
         realName: '',
         gender: 0,
-        email: '',
-        mobile: '',
+        gradeAmount: 0,
+        classAmount: 0,
         roleIdList: [],
         status: 1
       }
