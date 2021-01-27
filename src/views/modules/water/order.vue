@@ -8,42 +8,20 @@
         <el-form-item>
           <el-button @click="getDataList()">{{ $t('query') }}</el-button>
         </el-form-item>
-        <el-form-item>
-          <el-button type="info" @click="exportHandle()">{{ $t('export') }}</el-button>
-        </el-form-item>
-        <el-form-item>
-          <el-button v-if="$hasPermission('water:order:save')" type="primary" @click="addOrUpdateHandle()">{{ $t('add') }}</el-button>
-        </el-form-item>
-        <el-form-item>
-          <el-button v-if="$hasPermission('water:order:delete')" type="danger" @click="deleteHandle()">{{ $t('deleteBatch') }}</el-button>
-        </el-form-item>
       </el-form>
       <el-table v-loading="dataListLoading" :data="dataList" border @selection-change="dataListSelectionChangeHandle" style="width: 100%;">
-        <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
-        <el-table-column prop="id" label="ID" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="detailId" label="学期详情表ID" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="termId" label="学期ID" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="termName" label="学期名称，如2020年上学期" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="studentName" label="学生姓名" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="schoolId" label="学校ID,即sys_user_id" header-align="center" align="center"></el-table-column>
+        <el-table-column prop="termName" label="学期名称" header-align="center" align="center"></el-table-column>
         <el-table-column prop="schoolName" label="学校名称" header-align="center" align="center"></el-table-column>
         <el-table-column prop="gradeName" label="年级名称" header-align="center" align="center"></el-table-column>
         <el-table-column prop="className" label="班级名称" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="classId" label="班级ID" header-align="center" align="center"></el-table-column>
+        <el-table-column prop="studentName" label="学生姓名" header-align="center" align="center"></el-table-column>
         <el-table-column prop="phone" label="手机号码" header-align="center" align="center"></el-table-column>
         <el-table-column prop="orderNo" label="订单编号" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="status" label="订单状态: 1未支付, 2已支付,  3已取消" header-align="center" align="center"></el-table-column>
+        <el-table-column prop="status" label="订单状态" header-align="center" align="center"></el-table-column>
         <el-table-column prop="payMoney" label="支付金额" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="payType" label="支付类型: 0微信付款1支付宝支付" header-align="center" align="center"></el-table-column>
+<!--        <el-table-column prop="payType" label="支付类型: 0微信付款1支付宝支付" header-align="center" align="center"></el-table-column>-->
         <el-table-column prop="payTime" label="支付时间" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="remark" label="订单备注" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="createTime" label="创建时间" header-align="center" align="center"></el-table-column>
-        <el-table-column :label="$t('handle')" fixed="right" header-align="center" align="center" width="150">
-          <template slot-scope="scope">
-            <el-button v-if="$hasPermission('water:order:update')" type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">{{ $t('update') }}</el-button>
-            <el-button v-if="$hasPermission('water:order:delete')" type="text" size="small" @click="deleteHandle(scope.row.id)">{{ $t('delete') }}</el-button>
-          </template>
-        </el-table-column>
+        <el-table-column prop="createTime" label="下单时间" header-align="center" align="center"></el-table-column>
       </el-table>
       <el-pagination
         :current-page="page"
