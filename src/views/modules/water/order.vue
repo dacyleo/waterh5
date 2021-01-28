@@ -3,8 +3,34 @@
     <div class="mod-water__order}">
       <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
         <el-form-item>
-          <el-input v-model="dataForm.id" placeholder="id" clearable></el-input>
+          <el-input v-model="dataForm.termName" placeholder="学期名称" clearable></el-input>
         </el-form-item>
+        <el-form-item>
+          <el-input v-model="dataForm.schoolName" placeholder="学校名称" clearable></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-select v-model="dataForm.gradeName" placeholder="年级" clearable >
+            <el-option label="全部" value=""></el-option>
+            <el-option label="1年级" value="1年级"></el-option>
+            <el-option label="2年级" value="2年级"></el-option>
+            <el-option label="3年级" value="3年级"></el-option>
+            <el-option label="4年级" value="4年级"></el-option>
+            <el-option label="5年级" value="5年级"></el-option>
+            <el-option label="6年级" value="6年级"></el-option>
+            <el-option label="7年级" value="7年级"></el-option>
+            <el-option label="8年级" value="8年级"></el-option>
+            <el-option label="9年级" value="9年级"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="dataForm.className" placeholder="班级名称" clearable></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="dataForm.studentName" placeholder="学生姓名" clearable></el-input>
+        </el-form-item>
+<!--        <el-form-item>-->
+<!--          <el-input v-model="dataForm.phone" placeholder="手机号码" clearable></el-input>-->
+<!--        </el-form-item>-->
         <el-form-item>
           <el-button @click="getDataList()">{{ $t('query') }}</el-button>
         </el-form-item>
@@ -16,12 +42,12 @@
         <el-table-column prop="className" label="班级名称" header-align="center" align="center"></el-table-column>
         <el-table-column prop="studentName" label="学生姓名" header-align="center" align="center"></el-table-column>
         <el-table-column prop="phone" label="手机号码" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="orderNo" label="订单编号" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="status" label="订单状态" header-align="center" align="center"></el-table-column>
+<!--        <el-table-column prop="orderNo" label="订单编号" header-align="center" align="center"></el-table-column>-->
+<!--        <el-table-column prop="status" label="订单状态" :formatter="formatStatus" header-align="center" align="center"></el-table-column>-->
         <el-table-column prop="payMoney" label="支付金额" header-align="center" align="center"></el-table-column>
 <!--        <el-table-column prop="payType" label="支付类型: 0微信付款1支付宝支付" header-align="center" align="center"></el-table-column>-->
         <el-table-column prop="payTime" label="支付时间" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="createTime" label="下单时间" header-align="center" align="center"></el-table-column>
+<!--        <el-table-column prop="createTime" label="下单时间" header-align="center" align="center"></el-table-column>-->
       </el-table>
       <el-pagination
         :current-page="page"
@@ -59,6 +85,20 @@ export default {
   },
   components: {
     AddOrUpdate
+  },
+  methods: {
+    formatStatus: function (row) {
+      if(row.status == null){
+        return '未知'
+      }
+      if(row.status == 1){
+        return '未支付'
+      }else if(row.status == 2){
+        return '已支付'
+      }else{
+        return '未知'
+      }
+    }
   }
 }
 </script>

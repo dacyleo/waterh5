@@ -3,7 +3,27 @@
     <div class="mod-water__schooltermdetail}">
       <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
         <el-form-item>
-          <el-input v-model="dataForm.id" placeholder="id" clearable></el-input>
+          <el-input v-model="dataForm.termName" placeholder="学期名称" clearable></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="dataForm.schoolName" placeholder="学校名称" clearable></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-select v-model="dataForm.gradeName" placeholder="年级" clearable >
+            <el-option label="全部" value=""></el-option>
+            <el-option label="1年级" value="1年级"></el-option>
+            <el-option label="2年级" value="2年级"></el-option>
+            <el-option label="3年级" value="3年级"></el-option>
+            <el-option label="4年级" value="4年级"></el-option>
+            <el-option label="5年级" value="5年级"></el-option>
+            <el-option label="6年级" value="6年级"></el-option>
+            <el-option label="7年级" value="7年级"></el-option>
+            <el-option label="8年级" value="8年级"></el-option>
+            <el-option label="9年级" value="9年级"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="dataForm.className" placeholder="班级名称" clearable></el-input>
         </el-form-item>
         <el-form-item>
           <el-button @click="getDataList()">{{ $t('query') }}</el-button>
