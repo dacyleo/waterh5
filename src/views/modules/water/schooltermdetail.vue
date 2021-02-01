@@ -52,7 +52,7 @@
 <!--        <el-table-column prop="teacherName" label="班主任姓名" header-align="center" align="center"></el-table-column>-->
         <el-table-column :label="$t('handle')" fixed="right" header-align="center" align="center" width="150">
           <template slot-scope="scope">
-            <el-button type="text" size="small" @click="downloadQRCode(scope.row.id)">二维码下载</el-button>
+             <el-button v-if="$hasPermission('sys:user:update')" type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">二维码下载</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -74,7 +74,6 @@
 <script>
 import mixinViewModule from '@/mixins/view-module'
 import AddOrUpdate from './schooltermdetail-add-or-update'
-import qs from "qs";
 import Cookies from "js-cookie";
 export default {
   mixins: [mixinViewModule],
@@ -97,14 +96,7 @@ export default {
     AddOrUpdate
   },
   methods: {
-    downloadQRCode: function (id) {
-      this.dataForm.id = id
-      var params = qs.stringify({
-        'token': Cookies.get('token'),
-        ...this.dataForm
-      })
-      window.location.href = `${window.SITE_CONFIG['apiURL']}` + this.mixinViewModuleOptions.downloadURL + '?' + `${params}`
-    }
+   
   }
 }
 </script>
