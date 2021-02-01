@@ -34,6 +34,9 @@
         <el-form-item>
           <el-button @click="getDataList()">{{ $t('query') }}</el-button>
         </el-form-item>
+        <el-form-item>
+          <el-button type="info" @click="exportHandle()">{{ $t('export') }}</el-button>
+        </el-form-item>
       </el-form>
       <el-table v-loading="dataListLoading" :data="dataList" border @selection-change="dataListSelectionChangeHandle" style="width: 100%;">
         <el-table-column prop="termName" label="学期名称" header-align="center" align="center"></el-table-column>

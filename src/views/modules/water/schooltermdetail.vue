@@ -28,14 +28,27 @@
         <el-form-item>
           <el-button @click="getDataList()">{{ $t('query') }}</el-button>
         </el-form-item>
+        <el-form-item>
+          <el-button type="info" @click="exportHandle()">{{ $t('export') }}</el-button>
+        </el-form-item>
       </el-form>
       <el-table v-loading="dataListLoading" :data="dataList" border @selection-change="dataListSelectionChangeHandle" style="width: 100%;">
-        <el-table-column prop="termName" label="学期名称" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="schoolName" label="学校名称" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="gradeName" label="年级名称" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="className" label="班级名称" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="needAmount" label="应缴人数" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="actualAmount" label="实缴人数" header-align="center" align="center"></el-table-column>
+        <el-table-column prop="termName"  label="学期名称" header-align="center" align="center"></el-table-column>
+        <el-table-column prop="schoolName"  label="学校名称" header-align="center" align="center"></el-table-column>
+        <el-table-column prop="gradeName"  label="年级名称" header-align="center" align="center"></el-table-column>
+        <el-table-column prop="className"  label="班级名称" header-align="center" align="center"></el-table-column>
+        <el-table-column prop="needAmount" label="应缴人数" header-align="center" align="center">
+          <template slot-scope="scope">
+            <el-tag v-if="scope.row.needAmount > scope.row.actualAmount" size="small" type="danger">{{ scope.row.needAmount }}</el-tag>
+            <el-tag v-else size="small" type="success">{{ scope.row.needAmount }}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="actualAmount" label="实缴人数" header-align="center" align="center">
+          <template slot-scope="scope">
+            <el-tag v-if="scope.row.needAmount > scope.row.actualAmount" size="small" type="danger">{{ scope.row.actualAmount }}</el-tag>
+            <el-tag v-else size="small" type="success">{{ scope.row.actualAmount }}</el-tag>
+          </template>
+        </el-table-column>
 <!--        <el-table-column prop="teacherName" label="班主任姓名" header-align="center" align="center"></el-table-column>-->
         <el-table-column :label="$t('handle')" fixed="right" header-align="center" align="center" width="150">
           <template slot-scope="scope">
