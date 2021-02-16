@@ -15,7 +15,6 @@
       <el-table v-loading="dataListLoading" :data="dataList" border @selection-change="dataListSelectionChangeHandle" style="width: 100%;">
         <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
         <el-table-column prop="name" label="学期名称" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="payMoney" label="缴费金额" header-align="center" align="center"></el-table-column>
         <el-table-column prop="beginDate" label="缴费开始时间" header-align="center" align="center"></el-table-column>
         <el-table-column prop="endDate" label="缴费结束时间" header-align="center" align="center"></el-table-column>
         <el-table-column prop="state" label="状态" :formatter="formatState" header-align="center" align="center"></el-table-column>

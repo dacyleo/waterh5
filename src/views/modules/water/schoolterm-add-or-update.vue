@@ -4,10 +4,7 @@
         <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmitHandle()"
                  :label-width="$i18n.locale === 'en-US' ? '120px' : '80px'">
             <el-form-item label="学期名称" prop="name">
-                <el-input v-model="dataForm.name" placeholder="学期名称，如2020年上学期"></el-input>
-            </el-form-item>
-            <el-form-item label="缴费金额" prop="payMoney">
-                <el-input v-model="dataForm.payMoney" placeholder="缴费金额，单位元"></el-input>
+                <el-input v-model="dataForm.name" placeholder="学期名称，如2021年上学期"></el-input>
             </el-form-item>
             <el-form-item label="开始时间" prop="beginDate">
                 <el-date-picker
@@ -41,7 +38,6 @@
                 dataForm: {
                     id: '',
                     name: '',
-                    payMoney: '',
                     beginDate: '',
                     endDate: '',
                     createTime: ''
@@ -52,9 +48,6 @@
             dataRule() {
                 return {
                     name: [
-                        {required: true, message: this.$t('validate.required'), trigger: 'blur'}
-                    ],
-                    payMoney: [
                         {required: true, message: this.$t('validate.required'), trigger: 'blur'}
                     ],
                     beginDate: [

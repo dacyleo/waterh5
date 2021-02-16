@@ -13,7 +13,7 @@
       <el-form-item prop="comfirmPassword" :label="$t('user.comfirmPassword')" :class="{ 'is-required': !dataForm.id }">
         <el-input v-model="dataForm.comfirmPassword" type="password" :placeholder="$t('user.comfirmPassword')"></el-input>
       </el-form-item>
-      <el-form-item label="缴费金额" prop="payMoney" v-if="!dataForm.id">
+      <el-form-item label="缴费金额" prop="payMoney">
         <el-input v-model="dataForm.payMoney" placeholder="缴费金额，单位元"></el-input>
       </el-form-item>
       <el-form-item prop="gradeAmount" label="年级数量" v-if="!dataForm.id">
