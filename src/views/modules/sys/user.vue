@@ -19,9 +19,9 @@
         @selection-change="dataListSelectionChangeHandle"
         @sort-change="dataListSortChangeHandle"
         style="width: 100%;">
-        <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
         <el-table-column prop="username" label="登录账号" header-align="center" align="center"></el-table-column>
         <el-table-column prop="realName" label="学校名称" header-align="center" align="center"></el-table-column>
+        <el-table-column prop="payMoney" label="缴费金额" header-align="center" align="center"></el-table-column>
         <el-table-column prop="gradeAmount" label="年级数量" header-align="center" align="center"></el-table-column>
         <el-table-column prop="classAmount" label="班级数量" header-align="center" align="center"></el-table-column>
         <el-table-column prop="status" :label="$t('user.status')"  header-align="center" align="center">

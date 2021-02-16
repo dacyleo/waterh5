@@ -13,11 +13,20 @@
       <el-form-item prop="comfirmPassword" :label="$t('user.comfirmPassword')" :class="{ 'is-required': !dataForm.id }">
         <el-input v-model="dataForm.comfirmPassword" type="password" :placeholder="$t('user.comfirmPassword')"></el-input>
       </el-form-item>
+      <el-form-item label="缴费金额" prop="payMoney" v-if="!dataForm.id">
+        <el-input v-model="dataForm.payMoney" placeholder="缴费金额，单位元"></el-input>
+      </el-form-item>
       <el-form-item prop="gradeAmount" label="年级数量" v-if="!dataForm.id">
         <el-input v-model="dataForm.gradeAmount" placeholder="年级数量"></el-input>
       </el-form-item>
       <el-form-item prop="classAmount" label="班级数量" v-if="!dataForm.id">
         <el-input v-model="dataForm.classAmount" placeholder="班级数量"></el-input>
+      </el-form-item>
+      <el-form-item prop="teacherPassword" label="班主任密码" :class="{ 'is-required': !dataForm.id }">
+        <el-input v-model="dataForm.teacherPassword" type="password" placeholder="班主任密码"></el-input>
+      </el-form-item>
+      <el-form-item prop="confirmTeacherPassword" label="确认班主任密码" :class="{ 'is-required': !dataForm.id }">
+        <el-input v-model="dataForm.confirmTeacherPassword" type="password" placeholder="确认班主任密码"></el-input>
       </el-form-item>
       <el-form-item prop="status" :label="$t('user.status')" size="mini">
         <el-radio-group v-model="dataForm.status">
@@ -49,12 +58,15 @@ export default {
         username: '',
         password: '',
         comfirmPassword: '',
+        teacherPassword: '',
+        confirmTeacherPassword: '',
         realName: '',
         gender: 0,
         gradeAmount: 0,
         classAmount: 0,
         roleIdList: [],
-        status: 1
+        status: 1,
+        payMoney: 0
       }
     }
   },
@@ -181,6 +193,9 @@ export default {
       this.$refs['dataForm'].validate((valid) => {
         if (!valid) {
           return false
+        }
+        if (this.dataForm.teacherPassword !== this.dataForm.confirmTeacherPassword) {
+          return false;
         }
         this.$http[!this.dataForm.id ? 'post' : 'put']('/sys/user', {
           ...this.dataForm,
