@@ -91,8 +91,8 @@
                     if (this.dataForm.beginDate >= this.dataForm.endDate) {
                         return this.$message.error('开始时间不能大于结束时间')
                     }
-                    this.dataForm.beginDate = this.$moment(this.dataForm.beginDate).format('YYYY-MM-DD h:mm:ss');
-                    this.dataForm.endDate = this.$moment(this.dataForm.endDate).format('YYYY-MM-DD h:mm:ss');
+                    this.dataForm.beginDate = this.$moment(this.dataForm.beginDate).format('YYYY-MM-DD HH:mm:ss');
+                    this.dataForm.endDate = this.$moment(this.dataForm.endDate).format('YYYY-MM-DD HH:mm:ss');
                     this.$http[!this.dataForm.id ? 'post' : 'put']('/water/schoolterm/', this.dataForm).then(({data: res}) => {
                         if (res.code !== 0) {
                             return this.$message.error(res.msg)

@@ -6,6 +6,12 @@
           <el-input v-model="dataForm.realName" placeholder="学校名称" clearable></el-input>
         </el-form-item>
         <el-form-item>
+          <el-select v-model="dataForm.incomeAccount" placeholder="收款账户" clearable >
+            <el-option label="鸿浩润" value="1"></el-option>
+            <el-option label="康健" value="2"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
           <el-button @click="getDataList2()">{{ $t('query') }}</el-button>
         </el-form-item>
         <el-form-item>
@@ -66,7 +72,8 @@ export default {
         exportURL: '/sys/user/export'
       },
       dataForm: {
-        username: ''
+        username: '',
+        incomeAccount: 1
       }
     }
   },

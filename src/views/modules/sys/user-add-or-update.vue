@@ -10,11 +10,14 @@
       <el-form-item prop="password" :label="$t('user.password')" :class="{ 'is-required': !dataForm.id }">
         <el-input v-model="dataForm.password" type="password" :placeholder="$t('user.password')"></el-input>
       </el-form-item>
-      <el-form-item prop="comfirmPassword" :label="$t('user.comfirmPassword')" :class="{ 'is-required': !dataForm.id }">
-        <el-input v-model="dataForm.comfirmPassword" type="password" :placeholder="$t('user.comfirmPassword')"></el-input>
-      </el-form-item>
       <el-form-item label="缴费金额" prop="payMoney">
         <el-input v-model="dataForm.payMoney" placeholder="缴费金额，单位元"></el-input>
+      </el-form-item>
+      <el-form-item label="收款账户" prop="incomeAccount">
+        <el-select v-model="dataForm.incomeAccount" clearable >
+          <el-option label="鸿浩润" value="1"></el-option>
+          <el-option label="康健" value="2"></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item prop="gradeAmount" label="年级数量" v-if="!dataForm.id">
         <el-input v-model="dataForm.gradeAmount" placeholder="年级数量"></el-input>
@@ -24,9 +27,6 @@
       </el-form-item>
       <el-form-item prop="teacherPassword" label="班主任密码" :class="{ 'is-required': !dataForm.id }">
         <el-input v-model="dataForm.teacherPassword" type="password" placeholder="班主任密码"></el-input>
-      </el-form-item>
-      <el-form-item prop="confirmTeacherPassword" label="确认班主任密码" :class="{ 'is-required': !dataForm.id }">
-        <el-input v-model="dataForm.confirmTeacherPassword" type="password" placeholder="确认班主任密码"></el-input>
       </el-form-item>
       <el-form-item prop="status" :label="$t('user.status')" size="mini">
         <el-radio-group v-model="dataForm.status">
@@ -43,198 +43,79 @@
 </template>
 
 <script>
-import debounce from 'lodash/debounce'
-import { isEmail, isMobile } from '@/utils/validate'
-export default {
-  data () {
-    return {
-      visible: false,
-      deptList: [],
-      deptListVisible: false,
-      roleList: [],
-      roleIdListDefault: [],
-      dataForm: {
-        id: '',
-        username: '',
-        password: '',
-        comfirmPassword: '',
-        teacherPassword: '',
-        confirmTeacherPassword: '',
-        realName: '',
-        gender: 0,
-        gradeAmount: 0,
-        classAmount: 0,
-        roleIdList: [],
-        status: 1,
-        payMoney: 0
-      }
-    }
-  },
-  computed: {
-    dataRule () {
-      var validatePassword = (rule, value, callback) => {
-        if (!this.dataForm.id && !/\S/.test(value)) {
-          return callback(new Error(this.$t('validate.required')))
-        }
-        callback()
-      }
-      var validateComfirmPassword = (rule, value, callback) => {
-        if (!this.dataForm.id && !/\S/.test(value)) {
-          return callback(new Error(this.$t('validate.required')))
-        }
-        if (this.dataForm.password !== value) {
-          return callback(new Error(this.$t('user.validate.comfirmPassword')))
-        }
-        callback()
-      }
-      var validateEmail = (rule, value, callback) => {
-        if (!isEmail(value)) {
-          return callback(new Error(this.$t('validate.format', { 'attr': this.$t('user.email') })))
-        }
-        callback()
-      }
-      var validateMobile = (rule, value, callback) => {
-        if (!isMobile(value)) {
-          return callback(new Error(this.$t('validate.format', { 'attr': this.$t('user.mobile') })))
-        }
-        callback()
-      }
+  import debounce from 'lodash/debounce'
+
+  export default {
+    data() {
       return {
-        username: [
-          { required: true, message: this.$t('validate.required'), trigger: 'blur' }
-        ],
-        deptName: [
-          { required: true, message: this.$t('validate.required'), trigger: 'change' }
-        ],
-        password: [
-          { validator: validatePassword, trigger: 'blur' }
-        ],
-        comfirmPassword: [
-          { validator: validateComfirmPassword, trigger: 'blur' }
-        ],
-        realName: [
-          { required: true, message: this.$t('validate.required'), trigger: 'blur' }
-        ],
-        email: [
-          { required: true, message: this.$t('validate.required'), trigger: 'blur' },
-          { validator: validateEmail, trigger: 'blur' }
-        ],
-        mobile: [
-          { required: true, message: this.$t('validate.required'), trigger: 'blur' },
-          { validator: validateMobile, trigger: 'blur' }
-        ]
+        visible: false,
+        dataForm: {
+          id: '',
+          username: '',
+          password: '',
+          comfirmPassword: '',
+          teacherPassword: '',
+          confirmTeacherPassword: '',
+          realName: '',
+          gender: 0,
+          gradeAmount: 0,
+          classAmount: 0,
+          roleIdList: [],
+          status: 1,
+          payMoney: 0,
+          incomeAccount: 1
+        }
       }
-    }
-  },
-  methods: {
-    init () {
-      this.visible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].resetFields()
-        this.roleIdListDefault = []
-        Promise.all([
-          this.getDeptList(),
-          this.getRoleList()
-        ]).then(() => {
+    },
+    computed: {
+      dataRule() {
+        return {
+
+        }
+      }
+    },
+    methods: {
+      init() {
+        this.visible = true
+        this.$nextTick(() => {
+          this.$refs['dataForm'].resetFields()
           if (this.dataForm.id) {
             this.getInfo()
           }
         })
-      })
-    },
-    // 获取部门列表
-    getDeptList () {
-      return this.$http.get('/sys/dept/list').then(({ data: res }) => {
-        if (res.code !== 0) {
-          return this.$message.error(res.msg)
-        }
-        this.deptList = res.data
-      }).catch(() => {})
-    },
-    // 获取角色列表
-    getRoleList () {
-      return this.$http.get('/sys/role/list').then(({ data: res }) => {
-        if (res.code !== 0) {
-          return this.$message.error(res.msg)
-        }
-        this.roleList = res.data
-      }).catch(() => {})
-    },
-    // 获取信息
-    getInfo () {
-      this.$http.get(`/sys/user/${this.dataForm.id}`).then(({ data: res }) => {
-        if (res.code !== 0) {
-          return this.$message.error(res.msg)
-        }
-        this.dataForm = {
-          ...this.dataForm,
-          ...res.data,
-          roleIdList: []
-        }
-        this.$refs.deptListTree.setCurrentKey(this.dataForm.deptId)
-        // 角色配置, 区分是否为默认角色
-        for (var i = 0; i < res.data.roleIdList.length; i++) {
-          if (this.roleList.filter(item => item.id === res.data.roleIdList[i])[0]) {
-            this.dataForm.roleIdList.push(res.data.roleIdList[i])
-            continue
-          }
-          this.roleIdListDefault.push(res.data.roleIdList[i])
-        }
-      }).catch(() => {})
-    },
-    // 所属部门树, 选中
-    deptListTreeCurrentChangeHandle (data, node) {
-      this.dataForm.deptId = data.id
-      this.dataForm.deptName = data.name
-      this.deptListVisible = false
-    },
-    // 表单提交
-    dataFormSubmitHandle: debounce(function () {
-      this.$refs['dataForm'].validate((valid) => {
-        if (!valid) {
-          return false
-        }
-        if (this.dataForm.teacherPassword !== this.dataForm.confirmTeacherPassword) {
-          return false;
-        }
-        this.$http[!this.dataForm.id ? 'post' : 'put']('/sys/user', {
-          ...this.dataForm,
-          roleIdList: [
-            ...this.dataForm.roleIdList,
-            ...this.roleIdListDefault
-          ]
-        }).then(({ data: res }) => {
+      },
+      // 获取信息
+      getInfo () {
+        this.$http.get(`/sys/user/${this.dataForm.id}`).then(({ data: res }) => {
           if (res.code !== 0) {
             return this.$message.error(res.msg)
           }
-          this.$message({
-            message: this.$t('prompt.success'),
-            type: 'success',
-            duration: 500,
-            onClose: () => {
-              this.visible = false
-              this.$emit('refreshDataList')
-            }
-          })
+          this.dataForm = {
+            ...this.dataForm,
+            ...res.data
+          }
         }).catch(() => {})
-      })
-    }, 1000, { 'leading': true, 'trailing': false })
+      },
+      // 表单提交
+      dataFormSubmitHandle: debounce(function () {
+        this.$refs['dataForm'].validate((valid) => {
+          this.$http[!this.dataForm.id ? 'post' : 'put']('/sys/user', this.dataForm).then(({data: res}) => {
+            if (res.code !== 0) {
+              return this.$message.error(res.msg)
+            }
+            this.$message({
+              message: this.$t('prompt.success'),
+              type: 'success',
+              duration: 500,
+              onClose: () => {
+                this.visible = false
+                this.$emit('refreshDataList')
+              }
+            })
+          }).catch(() => {
+          })
+        })
+      }, 1000, {'leading': true, 'trailing': false})
+    }
   }
-}
 </script>
-
-<style lang="scss">
-.mod-sys__user {
-  .dept-list {
-    .el-input__inner,
-    .el-input__suffix {
-      cursor: pointer;
-    }
-  }
-  .role-list {
-    .el-select {
-      width: 100%;
-    }
-  }
-}
-</style>
